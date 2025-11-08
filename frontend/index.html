@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VideoHub - YouTube Clone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Верхняя навигационная панель -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="logo">
+                <i class="fab fa-youtube"></i>
+                <span>VideoHub</span>
+            </div>
+
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Поиск видео..." class="search-input" id="mainSearchInput">
+                    <button class="search-btn" id="mainSearchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="user-actions">
+                <span class="user-welcome" id="userWelcome" style="display: none;"></span>
+                <button class="upload-btn" id="headerUploadBtn" style="display: none;">
+                    <i class="fas fa-video"></i>
+                    <span>Загрузить</span>
+                </button>
+                <button class="auth-btn" id="headerLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Войти</span>
+                </button>
+                <button class="auth-btn primary" id="headerRegisterBtn">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Регистрация</span>
+                </button>
+                <button class="auth-btn" id="headerLogoutBtn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Выйти</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контейнер -->
+    <div class="main-container">
+        <!-- Боковое меню -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="side-nav">
+                <div class="nav-section">
+                    <h3>Основное</h3>
+                    <a href="#main" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>Главная</span>
+                    </a>
+                    <a href="#popular" class="nav-item">
+                        <i class="fas fa-fire"></i>
+                        <span>Популярные</span>
+                    </a>
+                    <a href="#stories" class="nav-item">
+                        <i class="fas fa-history"></i>
+                        <span>Сторисы</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Библиотека</h3>
+                    <a href="#my-videos" class="nav-item">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Мои видео</span>
+                    </a>
+                    <a href="#liked" class="nav-item">
+                        <i class="fas fa-heart"></i>
+                        <span>Понравилось</span>
+                    </a>
+                    <a href="#history" class="nav-item">
+                        <i class="fas fa-history"></i>
+                        <span>История</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <h3>Категории</h3>
+                    <a href="#music" class="nav-item">
+                        <i class="fas fa-music"></i>
+                        <span>Музыка</span>
+                    </a>
+                    <a href="#gaming" class="nav-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Игры</span>
+                    </a>
+                    <a href="#sports" class="nav-item">
+                        <i class="fas fa-basketball-ball"></i>
+                        <span>Спорт</span>
+                    </a>
+                </div>
+
+                <!-- Добавлен раздел для авторизации -->
+                <div class="nav-section">
+                    <h3>Аккаунт</h3>
+                    <a href="#login" class="nav-item">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Войти</span>
+                    </a>
+                    <a href="#register" class="nav-item">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Регистрация</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Основное содержимое -->
+        <main class="content">
+            <!-- Главная страница -->
+            <section id="main" class="content-section active">
+                <div class="hero-banner">
+                    <div class="hero-content">
+                        <h1>Добро пожаловать на VideoHub</h1>
+                        <p>Открывайте мир видео в премиальном качестве</p>
+                        <button class="cta-button" id="mainCtaButton">
+                            <i class="fas fa-play"></i>
+                            Начать просмотр
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Рекомендуемые видео</h2>
+                    <div class="filters">
+                        <button class="filter-btn active" data-filter="all">Все</button>
+                        <!-- Фильтры будут добавляться динамически -->
+                    </div>
+                </div>
+
+                <div class="videos-grid" id="videos-grid"></div>
+            </section>
+
+            <!-- Популярные видео -->
+            <section id="popular" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-fire"></i> Популярные видео</h2>
+                    <p>Самое просматриваемое за неделю</p>
+                </div>
+                <div class="videos-grid" id="popular-grid"></div>
+            </section>
+
+            <!-- Сторисы -->
+            <section id="stories" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Сторисы</h2>
+                    <p>Короткие видео, которые исчезают через 24 часа</p>
+                    <button class="upload-video-btn" id="uploadStoryBtn">
+                        <i class="fas fa-plus"></i>
+                        Добавить сторис
+                    </button>
+                </div>
+
+                <!-- Форма загрузки сторис -->
+                <div class="upload-section" id="uploadStorySection" style="display: none;">
+                    <h3>Добавить новый сторис</h3>
+                    <form class="upload-form" id="uploadStoryForm">
+                        <div class="upload-grid">
+                            <div class="upload-preview">
+                                <div class="preview-placeholder" id="storyThumbnailPreview">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Загрузите превью сторис</p>
+                                    <input type="file" accept="image/*" class="file-input" id="storyThumbnailInput">
+                                </div>
+                            </div>
+
+                            <div class="upload-fields">
+                                <div class="form-group">
+                                    <label for="storyTitle">Название сторис</label>
+                                    <input type="text" id="storyTitle" placeholder="Введите название сторис" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="storyDescription">Описание</label>
+                                    <textarea id="storyDescription" placeholder="Опишите ваш сторис" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="storyVideoFile">Видео файл</label>
+                                    <input type="file" id="storyVideoFile" accept="video/*" class="file-input">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="storyVideoUrl">Или укажите ссылку на видео</label>
+                                    <input type="url" id="storyVideoUrl" placeholder="https://example.com/video.mp4">
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="cancel-btn" id="storyCancelBtn">Отмена</button>
+                                    <button type="submit" class="submit-btn">Опубликовать сторис</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="stories-scroll">
+                    <div class="stories-container" id="stories-container"></div>
+                </div>
+
+                <div class="section-header">
+                    <h3>Все сторисы</h3>
+                </div>
+                <div class="videos-grid" id="stories-videos-grid"></div>
+            </section>
+
+            <!-- Вход -->
+            <section id="login" class="content-section">
+                <div class="auth-page">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h2><i class="fas fa-sign-in-alt"></i> Вход в аккаунт</h2>
+                            <p>Войдите в свой аккаунт VideoHub</p>
+                        </div>
+
+                        <form class="auth-form" id="loginForm">
+                            <div class="form-group">
+                                <label for="loginUsername">Имя пользователя или Email</label>
+                                <input type="text" id="loginUsername" name="username" placeholder="Введите имя пользователя или email" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="loginPassword">Пароль</label>
+                                <input type="password" id="loginPassword" name="password" placeholder="Введите ваш пароль" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+
+                            <div class="form-options">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="loginRemember">
+                                    <span class="checkmark"></span>
+                                    Запомнить меня
+                                </label>
+                                <a href="#forgot-password" class="forgot-link">Забыли пароль?</a>
+                            </div>
+
+                            <button type="submit" class="auth-submit-btn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Войти в аккаунт
+                            </button>
+
+                            <div class="auth-footer">
+                                <p>Нет аккаунта? <a href="#register" class="auth-link">Зарегистрироваться</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Регистрация -->
+            <section id="register" class="content-section">
+                <div class="auth-page">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <h2><i class="fas fa-user-plus"></i> Создать аккаунт</h2>
+                            <p>Присоединяйтесь к сообществу VideoHub</p>
+                        </div>
+
+                        <form class="auth-form" id="registerForm">
+                            <div class="form-group">
+                                <label for="regUsername">Имя пользователя</label>
+                                <input type="text" id="regUsername" name="username" placeholder="Введите имя пользователя" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regEmail">Email адрес</label>
+                                <input type="email" id="regEmail" name="email" placeholder="Введите ваш email" required>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regPassword">Пароль</label>
+                                <input type="password" id="regPassword" name="password" placeholder="Создайте пароль" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regConfirmPassword">Подтвердите пароль</label>
+                                <input type="password" id="regConfirmPassword" placeholder="Повторите пароль" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+
+                            <button type="submit" class="auth-submit-btn">
+                                <i class="fas fa-user-plus"></i>
+                                Создать аккаунт
+                            </button>
+
+                            <div class="auth-footer">
+                                <p>Уже есть аккаунт? <a href="#login" class="auth-link">Войти</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Мои видео -->
+            <section id="my-videos" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-video"></i> Мои видео</h2>
+                    <button class="upload-video-btn" id="uploadTriggerBtn">
+                        <i class="fas fa-plus"></i>
+                        Загрузить видео
+                    </button>
+                </div>
+
+                <!-- Форма загрузки видео -->
+                <div class="upload-section" id="uploadSection" style="display: none;">
+                    <h3>Загрузить новое видео</h3>
+                    <form class="upload-form" id="uploadForm">
+                        <div class="upload-grid">
+                            <div class="upload-preview">
+                                <div class="preview-placeholder" id="thumbnailPreview">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Загрузите превью видео</p>
+                                    <input type="file" accept="image/*" class="file-input" id="thumbnailInput">
+                                </div>
+                            </div>
+
+                            <div class="upload-fields">
+                                <div class="form-group">
+                                    <label for="uploadVideoTitle">Название видео</label>
+                                    <input type="text" id="uploadVideoTitle" placeholder="Введите название видео" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="uploadVideoDescription">Описание</label>
+                                    <textarea id="uploadVideoDescription" placeholder="Опишите ваше видео" rows="4"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="uploadVideoFile">Видео файл</label>
+                                    <input type="file" id="uploadVideoFile" accept="video/*" class="file-input">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="videoUrl">Или укажите ссылку на видео</label>
+                                    <input type="url" id="videoUrl" placeholder="https://example.com/video.mp4">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="uploadVideoCategory">Категория</label>
+                                    <select id="uploadVideoCategory" required>
+                                        <option value="">Выберите категорию</option>
+                                        <option value="Программирование">Программирование</option>
+                                        <option value="Музыка">Музыка</option>
+                                        <option value="Игры">Игры</option>
+                                        <option value="Спорт">Спорт</option>
+                                        <option value="Образование">Образование</option>
+                                        <option value="Развлечения">Развлечения</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="cancel-btn" id="uploadCancelBtn">Отмена</button>
+                                    <button type="submit" class="submit-btn">Опубликовать видео</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="videos-grid" id="my-videos-grid"></div>
+            </section>
+
+            <!-- Другие секции -->
+            <section id="liked" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-heart"></i> Понравившиеся видео</h2>
+                    <p>Видео, которые вам понравились</p>
+                </div>
+                <div class="videos-grid" id="liked-grid"></div>
+            </section>
+
+            <section id="history" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> История просмотров</h2>
+                    <p>Недавно просмотренные видео</p>
+                </div>
+                <div class="videos-grid" id="history-grid"></div>
+            </section>
+
+            <section id="music" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-music"></i> Музыка</h2>
+                    <p>Лучшие музыкальные видео</p>
+                </div>
+                <div class="videos-grid" id="music-grid"></div>
+            </section>
+
+            <section id="gaming" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-gamepad"></i> Игры</h2>
+                    <p>Игровые стримы и видео</p>
+                </div>
+                <div class="videos-grid" id="gaming-grid"></div>
+            </section>
+
+            <section id="sports" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-basketball-ball"></i> Спорт</h2>
+                    <p>Спортивные события и тренировки</p>
+                </div>
+                <div class="videos-grid" id="sports-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo">
+                    <i class="fab fa-youtube"></i>
+                    <span>VideoHub</span>
+                </div>
+                <p>Лучшая платформа для просмотра и публикации видео</p>
+            </div>
+
+            <div class="footer-section">
+                <h4>Навигация</h4>
+                <a href="#main" class="footer-link">Главная</a>
+                <a href="#popular" class="footer-link">Популярные</a>
+                <a href="#stories" class="footer-link">Сторисы</a>
+                <a href="#my-videos" class="footer-link">Мои видео</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Помощь</h4>
+                <a href="https://support.google.com/youtube/" class="footer-link" target="_blank">Центр поддержки</a>
+                <a href="https://www.youtube.com/about/contact/" class="footer-link" target="_blank">Контакты</a>
+                <a href="https://www.youtube.com/about/" class="footer-link" target="_blank">О нас</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>Социальные сети</h4>
+                <div class="social-links">
+                    <a href="https://vk.com" class="social-link" target="_blank">
+                        <i class="fab fa-vk"></i>
+                        <span>VK</span>
+                    </a>
+                    <a href="https://telegram.org" class="social-link" target="_blank">
+                        <i class="fab fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="https://www.youtube.com" class="social-link" target="_blank">
+                        <i class="fab fa-youtube"></i>
+                        <span>YouTube</span>
+                    </a>
+                    <a href="https://www.instagram.com" class="social-link" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 VideoHub. Все права защищены.</p>
+            <p>Дипломный проект - Создано с ❤️ на FastAPI и JavaScript</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
